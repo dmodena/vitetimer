@@ -88,3 +88,11 @@ Start a local web server serving the built files from `./dist` for verification:
 ```bash
 npm run preview
 ```
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](file:///Users/dmodena/Dev/JavaScript/viteTimer/LICENSE) file for details.
+
+Developed by **Douglas Modena** (Copyright &copy; 2026).
