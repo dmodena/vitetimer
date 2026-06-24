@@ -1,13 +1,57 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vitetimer</title>
+    <title>Timer - Time Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Work+Sans:wght@400;500&family=JetBrains+Mono:wght@500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   </head>
-  <body>
-    <div id="app"></div>
+  <body class="font-body-md text-on-surface min-h-screen pb-24">
+    <!-- TopAppBar -->
+    <header class="w-full sticky top-0 bg-background/80 backdrop-blur-md flex items-center justify-center px-gutter py-sm z-50">
+      <div class="flex items-center gap-sm">
+        <span class="material-symbols-outlined text-primary" data-icon="timer">timer</span>
+        <h1 class="font-headline-lg text-xl font-bold text-primary">Timer</h1>
+      </div>
+    </header>
+
+    <main class="max-w-md mx-auto px-lg pt-lg space-y-xl">
+      <timer-section></timer-section>
+      
+      <!-- Divider -->
+      <div class="h-px bg-outline-variant w-full opacity-50"></div>
+      
+      <calculator-section></calculator-section>
+    </main>
+
+    <!-- BottomNavBar -->
+    <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-lg py-xs bg-surface/90 backdrop-blur-md z-50 border-t border-outline-variant">
+      <button class="nav-btn flex flex-col items-center justify-center text-primary bg-primary-fixed/50 rounded-2xl px-6 py-2 transition-all active:scale-90" data-target="timer-section">
+        <span class="material-symbols-outlined" data-icon="schedule">schedule</span>
+        <span class="font-label-caps text-[10px] mt-0.5">TIMER</span>
+      </button>
+      <button class="nav-btn flex flex-col items-center justify-center text-outline px-6 py-2 hover:text-primary transition-all active:scale-90" data-target="calculator-section">
+        <span class="material-symbols-outlined" data-icon="calculate">calculate</span>
+        <span class="font-label-caps text-[10px] mt-0.5">CALC</span>
+      </button>
+    </nav>
+
     <script type="module" src="/src/main.ts"></script>
+    <script>
+      // Simple navigation logic for BottomNavBar
+      const navButtons = document.querySelectorAll('.nav-btn');
+      navButtons.forEach(btn => {
+          btn.addEventListener('click', () => {
+              navButtons.forEach(b => {
+                  b.className = "nav-btn flex flex-col items-center justify-center text-outline px-6 py-2 hover:text-primary transition-all active:scale-90";
+              });
+              btn.className = "nav-btn flex flex-col items-center justify-center text-primary bg-primary-fixed/50 rounded-2xl px-6 py-2 transition-all active:scale-90";
+              
+              const target = btn.getAttribute('data-target');
+              document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+          });
+      });
+    </script>
   </body>
 </html>
