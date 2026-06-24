@@ -102,7 +102,7 @@ export class CalculatorSection extends HTMLElement {
   }
 
   private addEntry(duration: any) {
-    const id = Date.now().toString() + Math.random().toString(36).substr(2, 5);
+    const id = Date.now().toString() + Math.random().toString(36).substring(2, 7);
     this.entries.push({ id, duration });
     this.renderEntries();
     this.updateTotal();
