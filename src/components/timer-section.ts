@@ -4,7 +4,7 @@ import templateContent from './timer-section.html?raw';
 export class TimerSection extends HTMLElement {
   private timerInterval: number | null = null;
   private isRunning: boolean = false;
-  
+
   private initialTime: any;
   private pausedDuration: any;
 
@@ -67,7 +67,7 @@ export class TimerSection extends HTMLElement {
     this.playIconEl.classList.add('hidden');
     this.pauseIconEl.classList.remove('hidden');
     this.timerChipEl.classList.remove('hidden');
-    
+
     this.sendToCalcBtnEl.disabled = true;
     this.sendToCalcBtnEl.classList.add('opacity-50', 'cursor-not-allowed');
   }
@@ -91,7 +91,7 @@ export class TimerSection extends HTMLElement {
     this.isRunning = false;
     clearInterval(this.timerInterval!);
     this.pausedDuration = undefined;
-    
+
     this.playIconEl.classList.remove('hidden');
     this.pauseIconEl.classList.add('hidden');
     this.timerChipEl.classList.add('hidden');
@@ -111,7 +111,7 @@ export class TimerSection extends HTMLElement {
 
   private renderTime(duration: any) {
     const d = duration.round({ smallestUnit: 'millisecond', largestUnit: 'hour' });
-    
+
     const hh = this.pad(d.hours);
     const mm = this.pad(d.minutes);
     const ss = this.pad(d.seconds);
@@ -137,7 +137,7 @@ export class TimerSection extends HTMLElement {
 
     this.dispatchEvent(timeEvent);
     this.resetTimer();
-    
+
     const calcSection = document.querySelector('calculator-section');
     if (calcSection) calcSection.scrollIntoView({ behavior: 'smooth' });
   }

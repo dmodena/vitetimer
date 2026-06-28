@@ -3,7 +3,7 @@ import templateContent from './calculator-section.html?raw';
 
 export class CalculatorSection extends HTMLElement {
   private entries: { id: string; duration: any }[] = [];
-  
+
   private calcHEl!: HTMLInputElement;
   private calcMEl!: HTMLInputElement;
   private calcSEl!: HTMLInputElement;
@@ -35,7 +35,7 @@ export class CalculatorSection extends HTMLElement {
 
     // Listen to global events
     document.addEventListener('time-sent', (e: Event) => this.handleTimeSent(e as CustomEvent));
-    
+
     // Listen to remove events from within shadow dom
     this.shadowRoot!.addEventListener('remove-entry', (e: Event) => this.removeEntry(e as CustomEvent));
   }
@@ -63,7 +63,8 @@ export class CalculatorSection extends HTMLElement {
   }
 
   private addEntry(duration: any) {
-    const id = Date.now().toString() + Math.random().toString(36).substring(2, 7);
+    const id = (globalThis as any).crypto.randomUUID();
+    console.log('id: ', id);
     this.entries.push({ id, duration });
     this.renderEntries();
     this.updateTotal();
@@ -105,7 +106,7 @@ export class CalculatorSection extends HTMLElement {
     });
 
     const totalDuration = (globalThis as any).Temporal.Duration.from({ seconds: totalSeconds }).round({ largestUnit: 'hour' });
-    
+
     const hh = totalDuration.hours.toString().padStart(2, '0');
     const mm = totalDuration.minutes.toString().padStart(2, '0');
     const ss = totalDuration.seconds.toString().padStart(2, '0');

@@ -36,7 +36,7 @@ export class TimeEntry extends HTMLElement {
 
   private render() {
     if (!this._duration) return;
-    
+
     this.shadowRoot!.innerHTML = `
       <style>${globalStyles}</style>
       ${templateContent}
