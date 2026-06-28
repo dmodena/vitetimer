@@ -1,0 +1,32 @@
+<section class="flex flex-col items-center justify-center py-xl space-y-lg w-full">
+    <div class="timer-display text-center">
+        <div class="font-display-timer text-display-timer text-on-surface flex items-start justify-center">
+            <span id="timer-main">00h 00m 00s</span>
+            <span class="timer-fraction text-primary font-label-caps" id="timer-fraction">0</span>
+        </div>
+        <p class="font-label-caps text-xs text-outline tracking-widest mt-xs uppercase">Elapsed Time</p>
+    </div>
+    <div class="flex items-center gap-lg">
+        <!-- Reset -->
+        <button id="reset-btn"
+            class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-outline hover:bg-surface-container hover:text-primary transition-all active:scale-95">
+            <span class="material-symbols-outlined" data-icon="replay">replay</span>
+        </button>
+        <!-- Play/Pause -->
+        <button id="play-pause-btn"
+            class="w-20 h-20 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shadow-md hover:shadow-lg hover:brightness-105 active:scale-90 transition-all">
+            <span id="play-icon" class="material-symbols-outlined text-[40px]" data-icon="play_arrow">play_arrow</span>
+            <span id="pause-icon" class="material-symbols-outlined text-[40px] hidden" data-icon="pause">pause</span>
+        </button>
+        <!-- Send to Calculator -->
+        <button id="send-to-calc-btn" disabled
+            class="w-12 h-12 rounded-full border border-outline-variant flex items-center justify-center text-outline opacity-50 cursor-not-allowed hover:bg-surface-container hover:text-primary transition-all disabled:hover:bg-transparent">
+            <span class="material-symbols-outlined" data-icon="input">input</span>
+        </button>
+    </div>
+    <div class="h-6" id="status-label">
+        <span id="timer-running-chip"
+            class="font-label-caps text-[10px] text-primary px-3 py-1 bg-primary-fixed rounded-full hidden">TIMER
+            ACTIVE</span>
+    </div>
+</section>

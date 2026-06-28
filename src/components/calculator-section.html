@@ -1,0 +1,45 @@
+<section class="glass-card rounded-2xl p-lg space-y-lg" id="calculator-section">
+    <header class="flex items-center justify-between">
+        <h2 class="font-headline-lg text-lg text-on-surface">Time Calculator</h2>
+        <span class="material-symbols-outlined text-outline" data-icon="calculate">calculate</span>
+    </header>
+
+    <!-- Input Row -->
+    <div class="grid grid-cols-4 gap-sm items-end">
+        <div class="space-y-xs">
+            <label class="font-label-caps text-[11px] text-outline ml-1">HH</label>
+            <input type="number" id="calc-h" placeholder="00"
+                class="w-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary/20 text-center font-body-md py-sm rounded-2xl" />
+        </div>
+        <div class="space-y-xs">
+            <label class="font-label-caps text-[11px] text-outline ml-1">MM</label>
+            <input type="number" id="calc-m" placeholder="00"
+                class="w-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary/20 text-center font-body-md py-sm rounded-2xl" />
+        </div>
+        <div class="space-y-xs">
+            <label class="font-label-caps text-[11px] text-outline ml-1">SS</label>
+            <input type="number" id="calc-s" placeholder="00"
+                class="w-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary/20 text-center font-body-md py-sm rounded-2xl" />
+        </div>
+        <button id="add-entry-btn"
+            class="h-[40px] w-full bg-surface-tint text-on-primary rounded-2xl flex items-center justify-center hover:brightness-110 active:scale-95 transition-all">
+            <span class="material-symbols-outlined" data-icon="add">add</span>
+        </button>
+    </div>
+
+    <!-- List of Manual Entries -->
+    <div id="entries-list" class="max-h-64 overflow-y-auto space-y-sm pr-xs custom-scrollbar">
+        <!-- Empty state -->
+        <div id="empty-entries" class="py-lg text-center text-outline/60 italic font-body-md">
+            No entries added yet
+        </div>
+    </div>
+
+    <!-- Footer: Total Time -->
+    <footer class="pt-md border-t border-outline-variant flex items-center justify-between">
+        <span class="font-label-caps text-xs text-outline">TOTAL DURATION</span>
+        <div class="text-right">
+            <span id="total-time-display" class="font-display-timer text-2xl text-primary">00h 00m 00s</span>
+        </div>
+    </footer>
+</section>

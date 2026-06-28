@@ -1,4 +1,5 @@
 import globalStyles from '../index.css?inline';
+import templateContent from './time-entry.html?raw';
 
 export class TimeEntry extends HTMLElement {
   private _duration: any;
@@ -38,13 +39,10 @@ export class TimeEntry extends HTMLElement {
     
     this.shadowRoot!.innerHTML = `
       <style>${globalStyles}</style>
-      <div class="flex items-center justify-between p-sm px-md bg-surface-container-low rounded-2xl border border-outline-variant/30 hover:border-primary/30 transition-colors">
-        <span class="font-display-timer text-lg font-semibold text-on-surface">${this.formatTime(this._duration)}</span>
-        <button id="delete-btn" class="w-10 h-10 flex items-center justify-center text-error hover:bg-error-container rounded-full transition-colors">
-          <span class="material-symbols-outlined" data-icon="delete">delete</span>
-        </button>
-      </div>
+      ${templateContent}
     `;
+
+    this.shadowRoot!.getElementById('time-display')!.textContent = this.formatTime(this._duration);
 
     this.shadowRoot!.getElementById('delete-btn')!.addEventListener('click', () => {
       const removeEvent = new CustomEvent('remove-entry', {
