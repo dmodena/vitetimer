@@ -44,3 +44,10 @@ input::-webkit-inner-spin-button {
   background: #c3c8c1;
   border-radius: 4px;
 }
+
+dialog::backdrop {
+  background-color: rgba(31, 27, 23, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+

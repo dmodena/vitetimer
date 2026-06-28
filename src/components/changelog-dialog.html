@@ -1,0 +1,26 @@
+<!-- Version Button (Pill) -->
+<button id="version-btn"
+    class="absolute right-gutter text-[10px] font-label-caps bg-primary-fixed text-on-primary-fixed-variant px-2.5 py-1 rounded-full hover:brightness-95 active:scale-95 transition-all">
+</button>
+
+<!-- Changelog Dialog -->
+<dialog id="changelog-modal"
+    class="bg-surface border border-outline-variant/30 rounded-2xl p-lg shadow-xl max-w-sm w-[90%] outline-none focus:outline-none">
+    <div class="flex flex-col space-y-md">
+        <header class="flex items-center justify-between">
+            <h3 class="font-headline-lg text-lg text-on-surface font-semibold">What's New</h3>
+            <span class="material-symbols-outlined text-outline" data-icon="history">history</span>
+        </header>
+
+        <!-- Scrollable content area -->
+        <pre id="changelog-content"
+            class="font-body-sm text-on-surface-variant whitespace-pre-wrap break-words leading-relaxed max-h-[250px] overflow-y-auto pr-xs custom-scrollbar text-left font-sans"></pre>
+
+        <footer class="pt-sm">
+            <button id="close-changelog-btn"
+                class="w-full py-3 bg-[#515f54] text-white font-semibold rounded-2xl hover:brightness-110 active:scale-95 transition-all">
+                OK
+            </button>
+        </footer>
+    </div>
+</dialog>

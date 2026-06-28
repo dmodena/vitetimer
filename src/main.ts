@@ -11,3 +11,4 @@ if (typeof (globalThis as any).Temporal === 'undefined') {
 import './components/timer-section';
 import './components/calculator-section';
 import './components/time-entry';
+import './components/changelog-dialog';

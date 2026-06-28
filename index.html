@@ -9,11 +9,12 @@
   </head>
   <body class="font-body-md text-on-surface min-h-screen pb-24">
     <!-- TopAppBar -->
-    <header class="w-full sticky top-0 bg-background/80 backdrop-blur-md flex items-center justify-center px-gutter py-sm z-50">
+    <header class="w-full relative sticky top-0 bg-background/80 backdrop-blur-md flex items-center justify-center px-gutter py-sm z-50">
       <div class="flex items-center gap-sm">
         <span class="material-symbols-outlined text-primary" data-icon="timer">timer</span>
         <h1 class="font-headline-lg text-xl font-bold text-primary">Timer</h1>
       </div>
+      <changelog-dialog version="v1.0.0"></changelog-dialog>
     </header>
 
     <main class="max-w-md mx-auto px-lg pt-md space-y-lg">
@@ -34,6 +35,7 @@
       </button>
     </nav>
 
+
     <script type="module" src="/src/main.ts"></script>
     <script>
       // Simple navigation logic for BottomNavBar
@@ -44,7 +46,7 @@
                   b.className = "nav-btn flex flex-col items-center justify-center text-outline px-6 py-2 hover:text-primary transition-all active:scale-90";
               });
               btn.className = "nav-btn flex flex-col items-center justify-center text-primary bg-primary-fixed/50 rounded-2xl px-6 py-2 transition-all active:scale-90";
-              
+
               const target = btn.getAttribute('data-target');
               document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
           });
