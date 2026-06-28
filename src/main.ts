@@ -7,6 +7,16 @@ if (typeof (globalThis as any).Temporal === 'undefined') {
   (Date.prototype as any).toTemporalInstant = toTemporalInstant;
 }
 
+// Polyfill crypto.randomUUID for non-secure (HTTP) environments
+if (typeof (globalThis as any).crypto === 'undefined') {
+  (globalThis as any).crypto = {};
+}
+if (typeof (globalThis as any).crypto.randomUUID === 'undefined') {
+  (globalThis as any).crypto.randomUUID = function() {
+    return 'uuid-' + Date.now().toString(36) + '-' + Math.random().toString(36).substring(2, 15);
+  };
+}
+
 // Register components
 import './components/timer-section';
 import './components/calculator-section';
