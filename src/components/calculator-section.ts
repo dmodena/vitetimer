@@ -64,7 +64,6 @@ export class CalculatorSection extends HTMLElement {
 
   private addEntry(duration: any) {
     const id = (globalThis as any).crypto.randomUUID();
-    console.log('id: ', id);
     this.entries.push({ id, duration });
     this.renderEntries();
     this.updateTotal();
