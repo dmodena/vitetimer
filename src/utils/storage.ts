@@ -38,14 +38,14 @@ export async function loadTimerState(): Promise<string | null> {
   });
 }
 
-export async function saveCalculatorEntries(entries: { id: string; durationISO: string }[]): Promise<void> {
+export async function saveCalculatorEntries(entries: { id: string; durationISO: string; description: string }[]): Promise<void> {
   const db = await getDB();
   const tx = db.transaction(STORE_NAME, 'readwrite');
   const store = tx.objectStore(STORE_NAME);
   store.put(entries, 'entriesList');
 }
 
-export async function loadCalculatorEntries(): Promise<{ id: string; durationISO: string }[]> {
+export async function loadCalculatorEntries(): Promise<{ id: string; durationISO: string; description?: string }[]> {
   const db = await getDB();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, 'readonly');

@@ -3,7 +3,7 @@ import templateContent from './calculator-section.html?raw';
 import { saveCalculatorEntries, loadCalculatorEntries } from '../utils/storage';
 
 export class CalculatorSection extends HTMLElement {
-  private entries: { id: string; duration: any }[] = [];
+  private entries: { id: string; duration: any; description: string }[] = [];
 
   private calcHEl!: HTMLInputElement;
   private calcMEl!: HTMLInputElement;
@@ -40,13 +40,17 @@ export class CalculatorSection extends HTMLElement {
     // Listen to remove events from within shadow dom
     this.shadowRoot!.addEventListener('remove-entry', (e: Event) => this.removeEntry(e as CustomEvent));
 
+    // Listen to description update events
+    this.shadowRoot!.addEventListener('update-description', (e: Event) => this.updateDescription(e as CustomEvent));
+
     // Load saved calculator entries from IndexedDB
     loadCalculatorEntries()
       .then(savedEntries => {
         if (savedEntries && savedEntries.length > 0) {
           this.entries = savedEntries.map(e => ({
             id: e.id,
-            duration: (globalThis as any).Temporal.Duration.from(e.durationISO)
+            duration: (globalThis as any).Temporal.Duration.from(e.durationISO),
+            description: e.description || ''
           }));
           this.renderEntries();
           this.updateTotal();
@@ -79,7 +83,7 @@ export class CalculatorSection extends HTMLElement {
 
   private addEntry(duration: any) {
     const id = (globalThis as any).crypto.randomUUID();
-    this.entries.push({ id, duration });
+    this.entries.push({ id, duration, description: '' });
     this.renderEntries();
     this.updateTotal();
     this.saveEntries();
@@ -93,10 +97,20 @@ export class CalculatorSection extends HTMLElement {
     this.saveEntries();
   }
 
+  private updateDescription(e: CustomEvent) {
+    const { id, description } = e.detail;
+    const entry = this.entries.find(entry => entry.id === id);
+    if (entry) {
+      entry.description = description;
+      this.saveEntries();
+    }
+  }
+
   private saveEntries() {
     const serialized = this.entries.map(e => ({
       id: e.id,
-      durationISO: e.duration.toString()
+      durationISO: e.duration.toString(),
+      description: e.description || ''
     }));
     saveCalculatorEntries(serialized).catch(err => console.error('Failed to save entries:', err));
   }
@@ -117,6 +131,7 @@ export class CalculatorSection extends HTMLElement {
         const timeEntryEl = document.createElement('time-entry') as any;
         timeEntryEl.entryId = entry.id;
         timeEntryEl.duration = entry.duration;
+        timeEntryEl.description = entry.description || '';
         this.entriesListEl.appendChild(timeEntryEl);
       });
     }

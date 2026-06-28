@@ -1,8 +1,34 @@
 <div
     class="flex items-center justify-between p-sm px-md bg-surface-container-low rounded-2xl border border-outline-variant/30 hover:border-primary/30 transition-colors">
     <span id="time-display" class="font-display-timer text-lg font-semibold text-on-surface"></span>
-    <button id="delete-btn"
-        class="w-10 h-10 flex items-center justify-center text-error hover:bg-error-container rounded-full transition-colors">
-        <span class="material-symbols-outlined" data-icon="delete">delete</span>
-    </button>
+    <div class="flex items-center gap-xs">
+        <button id="note-btn" class="w-10 h-10 flex items-center justify-center rounded-full transition-colors">
+            <span id="note-icon" class="material-symbols-outlined" data-icon="sticky_note_2">sticky_note_2</span>
+        </button>
+        <button id="delete-btn"
+            class="w-10 h-10 flex items-center justify-center text-error hover:bg-error-container rounded-full transition-colors">
+            <span class="material-symbols-outlined" data-icon="delete">delete</span>
+        </button>
+    </div>
 </div>
+
+<!-- Note/Description Modal -->
+<dialog id="desc-modal" class="bg-surface border border-outline-variant/30 rounded-2xl p-lg shadow-xl max-w-sm w-[90%] outline-none focus:outline-none">
+    <div class="flex flex-col space-y-md">
+        <header class="flex items-center justify-between">
+            <h3 class="font-headline-lg text-lg text-on-surface font-semibold">Entry Note</h3>
+            <span class="material-symbols-outlined text-outline" data-icon="sticky_note_2">sticky_note_2</span>
+        </header>
+        
+        <div class="space-y-xs">
+            <label class="font-label-caps text-[11px] text-outline ml-1">DESCRIPTION</label>
+            <textarea id="desc-input" placeholder="Add a description..." maxlength="200" class="w-full bg-surface-container-low border-none focus:ring-2 focus:ring-primary/20 font-body-sm p-sm rounded-2xl h-24 resize-none"></textarea>
+        </div>
+
+        <footer class="pt-sm">
+            <button id="save-desc-btn" class="w-full py-3 bg-[#515f54] text-white font-semibold rounded-2xl hover:brightness-110 active:scale-95 transition-all">
+                Save
+            </button>
+        </footer>
+    </div>
+</dialog>
