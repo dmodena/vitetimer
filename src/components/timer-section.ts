@@ -1,5 +1,6 @@
 import globalStyles from '../index.css?inline';
 import templateContent from './timer-section.html?raw';
+import { saveTimerState, loadTimerState } from '../utils/storage';
 
 export class TimerSection extends HTMLElement {
   private timerInterval: number | null = null;
@@ -36,6 +37,18 @@ export class TimerSection extends HTMLElement {
     this.shadowRoot!.getElementById('play-pause-btn')!.addEventListener('click', () => this.toggleTimer());
     this.shadowRoot!.getElementById('reset-btn')!.addEventListener('click', () => this.resetTimer());
     this.sendToCalcBtnEl.addEventListener('click', () => this.sendToCalc());
+
+    // Load saved timer state from IndexedDB
+    loadTimerState()
+      .then(savedState => {
+        if (savedState && !this.isRunning) {
+          this.pausedDuration = (globalThis as any).Temporal.Duration.from(savedState);
+          this.renderTime(this.pausedDuration);
+          this.sendToCalcBtnEl.disabled = false;
+          this.sendToCalcBtnEl.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+      })
+      .catch(err => console.error('Failed to load timer state:', err));
   }
 
   disconnectedCallback() {
@@ -79,6 +92,9 @@ export class TimerSection extends HTMLElement {
     clearInterval(this.timerInterval!);
     this.pausedDuration = (globalThis as any).Temporal.Now.instant().since(this.initialTime);
 
+    // Save timer state to storage
+    saveTimerState(this.pausedDuration.toString()).catch(err => console.error(err));
+
     this.playIconEl.classList.remove('hidden');
     this.pauseIconEl.classList.add('hidden');
     this.timerChipEl.classList.add('hidden');
@@ -91,6 +107,9 @@ export class TimerSection extends HTMLElement {
     this.isRunning = false;
     clearInterval(this.timerInterval!);
     this.pausedDuration = undefined;
+
+    // Clear saved timer state from storage
+    saveTimerState(null).catch(err => console.error(err));
 
     this.playIconEl.classList.remove('hidden');
     this.pauseIconEl.classList.add('hidden');

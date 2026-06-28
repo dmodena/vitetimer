@@ -7,16 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Persist timer state and time list across page refreshes.
+
 ## [1.0.1] - 2026-06-28
 
 ### Added
-- Display version and changelog
+- Display version and changelog.
 
 ### Fixed
-- Improve UI styling for mobile
-- Minor code improvements
+- Improve UI styling for mobile.
+- Minor code improvements.
 
 ## [1.0.0] - 2026-06-24
 
 ### Added
-- First release
+- First release.

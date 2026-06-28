@@ -1,5 +1,6 @@
 import globalStyles from '../index.css?inline';
 import templateContent from './calculator-section.html?raw';
+import { saveCalculatorEntries, loadCalculatorEntries } from '../utils/storage';
 
 export class CalculatorSection extends HTMLElement {
   private entries: { id: string; duration: any }[] = [];
@@ -38,6 +39,20 @@ export class CalculatorSection extends HTMLElement {
 
     // Listen to remove events from within shadow dom
     this.shadowRoot!.addEventListener('remove-entry', (e: Event) => this.removeEntry(e as CustomEvent));
+
+    // Load saved calculator entries from IndexedDB
+    loadCalculatorEntries()
+      .then(savedEntries => {
+        if (savedEntries && savedEntries.length > 0) {
+          this.entries = savedEntries.map(e => ({
+            id: e.id,
+            duration: (globalThis as any).Temporal.Duration.from(e.durationISO)
+          }));
+          this.renderEntries();
+          this.updateTotal();
+        }
+      })
+      .catch(err => console.error('Failed to load calculator entries:', err));
   }
 
   private handleTimeSent(e: CustomEvent) {
@@ -67,6 +82,7 @@ export class CalculatorSection extends HTMLElement {
     this.entries.push({ id, duration });
     this.renderEntries();
     this.updateTotal();
+    this.saveEntries();
   }
 
   private removeEntry(e: CustomEvent) {
@@ -74,6 +90,15 @@ export class CalculatorSection extends HTMLElement {
     this.entries = this.entries.filter(entry => entry.id !== idToRemove);
     this.renderEntries();
     this.updateTotal();
+    this.saveEntries();
+  }
+
+  private saveEntries() {
+    const serialized = this.entries.map(e => ({
+      id: e.id,
+      durationISO: e.duration.toString()
+    }));
+    saveCalculatorEntries(serialized).catch(err => console.error('Failed to save entries:', err));
   }
 
   private renderEntries() {
