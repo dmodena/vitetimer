@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Custom directories
+# Custom items
 samples/*
+TODO.md
