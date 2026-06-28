@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Change
+- PWA compatible version
+
 ## [1.1.1] - 2026-06-28
 
 ### Added

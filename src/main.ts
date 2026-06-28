@@ -1,4 +1,5 @@
 import './index.css';
+import { registerSW } from 'virtual:pwa-register';
 
 // Polyfill Temporal if needed
 import { Temporal, toTemporalInstant } from '@js-temporal/polyfill';
@@ -22,3 +23,8 @@ import './components/timer-section';
 import './components/calculator-section';
 import './components/time-entry';
 import './components/changelog-dialog';
+
+// Register the PWA service worker
+if ('serviceWorker' in navigator) {
+  registerSW({ immediate: true });
+}
