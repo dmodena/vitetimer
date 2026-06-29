@@ -2,6 +2,12 @@ import globalStyles from '../index.css?inline';
 import templateContent from './calculator-section.html?raw';
 import { saveCalculatorEntries, loadCalculatorEntries } from '../utils/storage';
 
+interface CalculatorState {
+  totalString: string;
+  isEmpty: boolean;
+  [key: string]: string | boolean;
+}
+
 export class CalculatorSection extends HTMLElement {
   private entries: { id: string; duration: any; description: string }[] = [];
 
@@ -12,6 +18,29 @@ export class CalculatorSection extends HTMLElement {
   private entriesListEl!: HTMLElement;
   private emptyEntriesEl!: HTMLElement;
   private totalTimeDisplay!: HTMLElement;
+
+  private state = new Proxy<CalculatorState>(
+    { totalString: '00h 00m 00s', isEmpty: true },
+    {
+      set: (obj, prop, value) => {
+        if (typeof prop === 'string') {
+          (obj as any)[prop] = value;
+        }
+
+        if (prop === 'totalString') {
+          if (this.totalTimeDisplay) {
+            this.totalTimeDisplay.textContent = value as string;
+          }
+        } else if (prop === 'isEmpty') {
+          if (this.emptyEntriesEl) {
+            this.emptyEntriesEl.style.display = value ? 'block' : 'none';
+          }
+        }
+
+        return true;
+      }
+    }
+  );
 
   constructor() {
     super();
@@ -123,10 +152,8 @@ export class CalculatorSection extends HTMLElement {
       }
     });
 
-    if (this.entries.length === 0) {
-      this.emptyEntriesEl.style.display = 'block';
-    } else {
-      this.emptyEntriesEl.style.display = 'none';
+    this.state.isEmpty = (this.entries.length === 0);
+    if (this.entries.length > 0) {
       this.entries.forEach(entry => {
         const timeEntryEl = document.createElement('time-entry') as any;
         timeEntryEl.entryId = entry.id;
@@ -150,7 +177,7 @@ export class CalculatorSection extends HTMLElement {
     const mm = totalDuration.minutes.toString().padStart(2, '0');
     const ss = totalDuration.seconds.toString().padStart(2, '0');
 
-    this.totalTimeDisplay.textContent = `${hh}h ${mm}m ${ss}s`;
+    this.state.totalString = `${hh}h ${mm}m ${ss}s`;
   }
 }
 

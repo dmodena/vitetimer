@@ -2,6 +2,14 @@ import globalStyles from '../index.css?inline';
 import templateContent from './timer-section.html?raw';
 import { saveTimerState, loadTimerState } from '../utils/storage';
 
+interface TimerState {
+  hh: string;
+  mm: string;
+  ss: string;
+  ms: string;
+  [key: string]: string;
+}
+
 export class TimerSection extends HTMLElement {
   private timerInterval: number | null = null;
   private isRunning: boolean = false;
@@ -15,6 +23,24 @@ export class TimerSection extends HTMLElement {
   private pauseIconEl!: HTMLElement;
   private timerChipEl!: HTMLElement;
   private sendToCalcBtnEl!: HTMLButtonElement;
+
+  private state = new Proxy<TimerState>(
+    { hh: '00', mm: '00', ss: '00', ms: '0' },
+    {
+      set: (obj, prop, value) => {
+        if (typeof prop === 'string') {
+          obj[prop] = value;
+        }
+
+        if (this.timerMainEl && this.timerFractionEl) {
+          this.timerMainEl.textContent = `${obj.hh}h ${obj.mm}m ${obj.ss}s`;
+          this.timerFractionEl.textContent = obj.ms;
+        }
+
+        return true;
+      }
+    }
+  );
 
   constructor() {
     super();
@@ -131,13 +157,10 @@ export class TimerSection extends HTMLElement {
   private renderTime(duration: any) {
     const d = duration.round({ smallestUnit: 'millisecond', largestUnit: 'hour' });
 
-    const hh = this.pad(d.hours);
-    const mm = this.pad(d.minutes);
-    const ss = this.pad(d.seconds);
-    const ms = this.head(d.milliseconds);
-
-    this.timerMainEl.textContent = `${hh}h ${mm}m ${ss}s`;
-    this.timerFractionEl.textContent = ms;
+    this.state.hh = this.pad(d.hours);
+    this.state.mm = this.pad(d.minutes);
+    this.state.ss = this.pad(d.seconds);
+    this.state.ms = this.head(d.milliseconds);
   }
 
   private sendToCalc() {

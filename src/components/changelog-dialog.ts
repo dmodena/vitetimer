@@ -2,7 +2,31 @@ import globalStyles from '../index.css?inline';
 import templateContent from './changelog-dialog.html?raw';
 import changelogContent from '../../CHANGELOG.md?raw';
 
+interface ChangelogState {
+  version: string;
+  [key: string]: string;
+}
+
 export class ChangelogDialog extends HTMLElement {
+  private versionBtnEl!: HTMLElement;
+
+  private state = new Proxy<ChangelogState>(
+    { version: '' },
+    {
+      set: (obj, prop, value) => {
+        if (typeof prop === 'string') {
+          obj[prop] = value;
+        }
+
+        if (prop === 'version') {
+          if (this.versionBtnEl) this.versionBtnEl.textContent = value;
+        }
+
+        return true;
+      }
+    }
+  );
+
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -21,19 +45,19 @@ export class ChangelogDialog extends HTMLElement {
       ${templateContent}
     `;
 
-    const versionBtn = this.shadowRoot!.getElementById('version-btn')!;
+    this.versionBtnEl = this.shadowRoot!.getElementById('version-btn')!;
     const modal = this.shadowRoot!.getElementById('changelog-modal') as HTMLDialogElement;
     const closeBtn = this.shadowRoot!.getElementById('close-changelog-btn')!;
     const contentArea = this.shadowRoot!.getElementById('changelog-content')!;
 
-    // Set version text dynamically
-    versionBtn.textContent = version;
+    // Set version text dynamically using Proxy state
+    this.state.version = version;
 
     // Set raw changelog text
     contentArea.textContent = changelogContent;
 
     // Set dialog actions
-    versionBtn.addEventListener('click', () => {
+    this.versionBtnEl.addEventListener('click', () => {
       modal.showModal();
     });
 
