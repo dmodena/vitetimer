@@ -64,6 +64,9 @@ export class TimeEntry extends HTMLElement {
     this.shadowRoot!.innerHTML = `
       <style>
         ${globalStyles}
+        :host {
+          display: block;
+        }
         dialog::backdrop {
           background-color: rgba(31, 27, 23, 0.4);
           backdrop-filter: blur(4px);
